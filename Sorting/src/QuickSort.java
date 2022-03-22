@@ -1,11 +1,15 @@
 import java.util.Arrays;
-
+/*
+ * Best Case : n log n 
+ * Average Case : n log n
+ * Worst Case : n^2
+ */
 public class QuickSort {
 
 	public static void main(String[] args) {
-		int arr[] = { 1, 5, 9, 3, 5, 3, 6 };
+		int arr[] = { 1, 5, 9, 0, 5, 3, 6 };
 		System.out.println(Arrays.toString(arr));
-		quickSort(arr, 0, arr.length-1);
+		quickSort(arr, 0, arr.length);
 		System.out.println(Arrays.toString(arr));
 	}
 
@@ -22,15 +26,13 @@ public class QuickSort {
 		int pivot = arr[start];
 		int pivotIndex = start;
 
-		while (end > start) {
-			while (arr[start] <= pivot && start < arr.length) {
-				if((end > start))
-					start++;
-			}
-			while (arr[end] > pivot && end < arr.length) {
-				if((end > start))
-					end--;
-			}
+		while (end > start) { 
+			/* take the end pointer first to avoid the index out of bound error
+			 * else you will get index out of bound error
+			 */
+			while (arr[--end] >= pivot && end > start)
+				;
+			while (arr[++start] < pivot && start < end);
 			if (end > start) {
 				swap(arr, end, start);
 			}
