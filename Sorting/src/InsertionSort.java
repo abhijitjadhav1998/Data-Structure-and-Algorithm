@@ -1,5 +1,11 @@
 import java.util.Arrays;
 
+/*
+ * Best Case : n
+ * Average Case : n^2
+ * Worst Case : n^2
+ */
+
 public class InsertionSort {
 
 	public static void main(String[] args) {
