@@ -3,7 +3,7 @@ import java.util.Collections;
 
 /*
  * Counting Sort
- * 
+ * O(n+k)
  * 
  */
 public class CountingSort {
@@ -24,7 +24,6 @@ public class CountingSort {
 		for(int i=0;i<array.length;i++) {
 			countArray[array[i] - min]++;
 		}
-		System.out.println(Arrays.toString(countArray));
 
 		for(int i=0;i<countArray.length;i++) {
 			if(countArray[i] != 0) {
