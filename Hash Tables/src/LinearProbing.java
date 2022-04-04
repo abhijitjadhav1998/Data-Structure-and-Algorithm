@@ -1,4 +1,3 @@
-import java.util.Optional;
 
 class StoredEmployee {
 	public String key;
@@ -44,22 +43,58 @@ class LinearHashFunction {
 	}
 
 	public Employee get(String key) {
+		int hashedValue = getHashedPostion(key);
+		if (hashedValue == -1) {
+			return null;
+		} else {
+			return hashtable[hashedValue].employee;
+		}
+
+	}
+
+	public Employee remove(String key) {
+		int hashedValue = getHashedPostion(key);
+		if (hashedValue == -1) {
+			return null;
+		}
+		Employee employee = hashtable[hashedValue].employee;
+		hashtable[hashedValue] = null;
+		rehashingtable();
+		return employee;
+
+	}
+	
+	private void rehashingtable() {
+		StoredEmployee oldHashtable[] = hashtable;
+		hashtable = new StoredEmployee[oldHashtable.length];
+		for(int i=0;i<oldHashtable.length;i++) {
+			if(oldHashtable[i] != null) {
+				put(oldHashtable[i].key, oldHashtable[i].employee);
+			}
+		}
+	}
+
+	public int getHashedPostion(String key) {
 		int hashedValue = hashKey(key);
+		if (hashtable[hashedValue] != null && hashtable[hashedValue].key.equals(key)) {
+			return hashedValue;
+		}
 		int stopIndex = hashedValue;
 		if (hashedValue == hashtable.length - 1) {
 			hashedValue = 0;
 		} else {
 			hashedValue++;
 		}
-		System.out.println("before for loop");
-		while (hashtable[hashedValue] != null && hashedValue != stopIndex && hashtable[hashedValue].key.equals(key)) {
+		while (hashtable[hashedValue] != null && hashedValue != stopIndex
+				&& hashtable[hashedValue].key.equals(key) == false) {
 			hashedValue = (hashedValue + 1) % hashtable.length;
+
 		}
-		System.out.println(hashedValue);
-		if (hashedValue == stopIndex) {
-			return null;
+
+		if (hashtable[hashedValue] != null && hashtable[hashedValue].key.equals(key)) {
+			return hashedValue;
 		} else {
-			return hashtable[hashedValue].employee;
+			return -1;
 		}
 	}
 
@@ -84,9 +119,10 @@ public class LinearProbing {
 
 	public static void main(String[] args) {
 		Employee employee1 = new Employee(1, "Abhijit", "Jadhav");
+		Employee employee2 = new Employee(2, "Ram", "Sharma");
+
 		Employee employee3 = new Employee(3, "Jadhav", "Saurabh");
 
-		Employee employee2 = new Employee(2, "Ram", "Sharma");
 		LinearHashFunction hashtable = new LinearHashFunction();
 		hashtable.put(employee1.getLastName(), employee1);
 		hashtable.put(employee3.getLastName(), employee3);
@@ -95,6 +131,10 @@ public class LinearProbing {
 
 		hashtable.printHashTable();
 		System.out.println(hashtable.get(employee2.getLastName()));
+		System.out.println(hashtable.remove(employee3.getLastName()));
+		hashtable.printHashTable();
+
+
 	}
 
 }
