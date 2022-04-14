@@ -52,6 +52,26 @@ class TreeNode {
 		}
 	}
 
+	public void traversePreOrder() {
+		System.out.print(data + ", ");
+		if (leftChild != null) {
+			leftChild.traversePreOrder();
+		}
+		if (rightChild != null) {
+			rightChild.traversePreOrder();
+		}
+	}
+
+	public void traversePostOrder() {
+		if (leftChild != null) {
+			leftChild.traversePostOrder();
+		}
+		if (rightChild != null) {
+			rightChild.traversePostOrder();
+		}
+		System.out.print(data + ", ");
+	}
+
 	public TreeNode search(int value) {
 		if (value == data) {
 			return this;
@@ -98,6 +118,33 @@ class TreeNode {
 		return "TreeNode [data=" + data + "]";
 	}
 
+	public void printCurrentLevel(TreeNode root, int level) {
+		if (root == null)
+			return;
+		if (level == 1)
+			System.out.print(root.data + ", ");
+		else if (level > 1) {
+			printCurrentLevel(root.leftChild, level - 1);
+			printCurrentLevel(root.rightChild, level - 1);
+		}
+	}
+
+	public int height(TreeNode root) {
+		if (root == null)
+			return 0;
+		else {
+			/* compute height of each subtree */
+			int leftHeight = height(root.leftChild);
+			int rightHeight = height(root.rightChild);
+
+			/* use the larger one */
+			if (leftHeight > rightHeight)
+				return (leftHeight + 1);
+			else
+				return (rightHeight + 1);
+		}
+	}
+
 }
 
 class Tree {
@@ -114,6 +161,37 @@ class Tree {
 	public void traverseInOrder() {
 		if (root != null) {
 			root.traverseInOrder();
+		}
+	}
+
+	public void traversePreOrder() {
+		if (root != null) {
+			root.traversePreOrder();
+		}
+	}
+
+	/* Function to print level order traversal of tree */
+	/*
+	 * printLevelorder(tree) for d = 1 to height(tree) printCurrentLevel(tree, d);
+	 * 
+	 * /*Function to print all nodes at a current level
+	 */
+	/*
+	 * printCurrentLevel(tree, level) if tree is NULL then return; if level is 1,
+	 * then print(tree->data); else if level greater than 1, then
+	 * printCurrentLevel(tree->left, level-1); printCurrentLevel(tree->right,
+	 * level-1);
+	 */
+	public void traveseLevelOrder() {
+		int h = root.height(root);
+		int i;
+		for (i = 1; i <= h; i++)
+			root.printCurrentLevel(root, i);
+	}
+
+	public void traversePostOrder() {
+		if (root != null) {
+			root.traversePostOrder();
 		}
 	}
 
@@ -190,6 +268,11 @@ public class TreeMain {
 
 		tree.traverseInOrder();
 		System.out.println();
+		tree.traversePreOrder();
+		System.out.println();
+		tree.traversePostOrder();
+		System.out.println();
+		tree.traveseLevelOrder();
 //		System.out.println(tree.search(37));
 //		System.out.println(tree.search(22));
 //		System.out.println(tree.search(15));
@@ -198,7 +281,7 @@ public class TreeMain {
 		// tree.delete(15);
 		tree.delete(30);
 
-		tree.traverseInOrder();
+		// tree.traverseInOrder();
 
 	}
 
