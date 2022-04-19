@@ -10,10 +10,12 @@ public class HeapSort {
 	}
 
 	private static void heapSort(int[] input, int length) {
+		// To Build a heap Sort
 		for(int i=(length/2)-1;i>=0;i--) {
 			heapify(input,length,i);
 		}
 		
+		// delete the root node and heapify
 		for(int i=length-1;i> 0;i--) {
 			swap(input,0,i);
 			//Call this heapify method in i not on length
