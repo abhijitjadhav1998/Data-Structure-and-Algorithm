@@ -107,6 +107,17 @@ class Heap {
 
 	}
 
+	public void sort() {
+		int lastHeapIndex = size - 1;
+		for (int i = 0; i < lastHeapIndex; i++) {
+			int temp = heap[0];
+			heap[0] = heap[lastHeapIndex - i];
+			heap[lastHeapIndex - i] = temp;
+
+			heapifyBelow(0, lastHeapIndex - i - 1);
+		}
+	}
+
 	private boolean isEmpty() {
 		return size == 0;
 	}
@@ -131,13 +142,13 @@ public class MaxHeap {
 		heap.insert(67);
 
 		heap.printHeap();
-
-		System.out.println(heap.peek());
-
-		heap.delete(0);
+		heap.sort();
+//		System.out.println(heap.peek());
+//
+//		heap.delete(0);
 		heap.printHeap();
 
-		System.out.println(heap.peek());
+		// System.out.println(heap.peek());
 	}
 
 }
